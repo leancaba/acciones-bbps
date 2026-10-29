@@ -91,11 +91,34 @@ body.no-scroll { overflow: hidden; }
 }
 
 /* Fila de números de día (queda fija arriba al bajar) */
-.days {
+.head {
   position: sticky; top: 0; z-index: 3;
-  display: grid; grid-template-columns: repeat(var(--days), var(--col));
   background: var(--paper);
   border-bottom: 1px solid var(--line);
+}
+.days { display: grid; grid-template-columns: repeat(var(--days), var(--col)); }
+
+/* Eventos del shopping: punto + nombre en su día */
+.evstrip {
+  display: grid; grid-template-columns: repeat(var(--days), var(--col));
+  grid-auto-rows: auto; row-gap: 8px;
+  padding: 2px 0 12px;
+}
+.evstrip[hidden] { display: none; }
+.ev {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 0 4px; min-width: 0; text-align: center;
+}
+.ev-dot {
+  width: 12px; height: 12px; border-radius: 50%; flex: none;
+  background: var(--brand-blue);
+  box-shadow: 0 0 0 3px rgba(29, 76, 156, .16);
+}
+.ev-name {
+  font-size: 12px; font-weight: 700; line-height: 1.2; color: var(--brand-blue);
+  text-transform: uppercase; letter-spacing: .01em;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  overflow-wrap: anywhere; max-width: 100%;
 }
 .day {
   height: clamp(74px, 11vh, 108px);

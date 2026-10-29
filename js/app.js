@@ -4,9 +4,10 @@
   const DOW = ["D", "L", "M", "M", "J", "V", "S"];
 
   const $ = (id) => document.getElementById(id);
-  const board = $("board"), grid = $("grid"), daysEl = $("days"), lanesEl = $("lanes"), emptyEl = $("empty");
+  const board = $("board"), grid = $("grid"), daysEl = $("days"), evEl = $("evstrip"), lanesEl = $("lanes"), emptyEl = $("empty");
 
   let all = [];
+  let eventos = [];   // vienen de la web de Eventos, siempre en vivo
   const today = new Date(); today.setHours(0, 0, 0, 0);
 
   // Mes inicial: ?mes=AAAA-MM o el mes actual
@@ -39,6 +40,21 @@
             </div>`;
     }
     daysEl.innerHTML = h;
+
+    // Eventos del shopping (punto + nombre en su día)
+    const prefix = `${y}-${pad(m + 1)}-`;
+    const evMonth = eventos
+      .filter(e => e.date.startsWith(prefix))
+      .sort((a, b) => a.date.localeCompare(b.date) || (a.time || "").localeCompare(b.time || ""));
+    const perDay = {};
+    evEl.innerHTML = evMonth.map(e => {
+      const d = +e.date.slice(8, 10);
+      const row = perDay[d] = (perDay[d] || 0) + 1;
+      return `<div class="ev" style="grid-column:${d};grid-row:${row}">
+                <i class="ev-dot"></i><span class="ev-name">${escapeHTML(e.title)}</span>
+              </div>`;
+    }).join("");
+    evEl.hidden = evMonth.length === 0;
 
     // Acciones que tocan este mes
     const items = all
@@ -173,6 +189,25 @@
     }
     render(first);
   }
+  async function loadEventos() {
+    const url = (window.APP_CONFIG && window.APP_CONFIG.EVENTOS_API) || "/api/eventos";
+    try {
+      const r = await fetch(url, { cache: "no-store" });
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      const list = await r.json();
+      eventos = Array.isArray(list) ? list.filter(e => e && e.title && /^\d{4}-\d{2}-\d{2}$/.test(e.date)) : [];
+    } catch (err) {
+      // Si la web de eventos no responde, el calendario sigue funcionando sin ellos
+      console.warn("Eventos no disponibles:", err.message);
+      eventos = [];
+    }
+  }
+
   window.Store.subscribe(() => load(false));
-  load(true);
+  Promise.all([loadEventos()]).finally(() => load(true));
+
+  // Se vuelven a leer los eventos cada minuto y al volver a la pestaña
+  const refreshEventos = () => loadEventos().then(() => render(false));
+  setInterval(refreshEventos, 60000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshEventos(); });
 })();
