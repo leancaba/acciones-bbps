@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Acciones de Marketing · Bahía Blanca Plaza Shopping</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=Archivo:wdth,wght@125,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="page-timeline">
+
+  <header class="top">
+    <a class="brand" href="/">
+      <img src="/assets/logo.png" alt="Bahía Blanca Plaza Shopping"
+           onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'brand-text',textContent:'BAHIA BLANCA PLAZA SHOPPING'}))">
+    </a>
+  </header>
+
+  <div class="monthbar" id="monthbar">
+    <h1 id="monthName">&nbsp;</h1>
+    <button class="pill-btn" id="pickMonth" type="button" aria-haspopup="dialog">ELEGIR MES</button>
+  </div>
+
+  <div class="board-wrap">
+    <main class="board" id="board">
+      <div class="grid" id="grid">
+        <div class="days" id="days"></div>
+        <div class="lanes" id="lanes"></div>
+      </div>
+    </main>
+    <p class="empty" id="empty" hidden></p>
+  </div>
+
+  <!-- Selector de mes -->
+  <div class="picker" id="picker" hidden>
+    <div class="picker-card" role="dialog" aria-label="Elegir mes">
+      <div class="picker-year">
+        <button type="button" id="prevYear" aria-label="Año anterior">‹</button>
+        <span id="pickerYear"></span>
+        <button type="button" id="nextYear" aria-label="Año siguiente">›</button>
+      </div>
+      <div class="picker-months" id="pickerMonths"></div>
+      <button type="button" class="picker-today" id="goToday">Ir a hoy</button>
+    </div>
+  </div>
+
+  <!-- Detalle de acción -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <button class="close" id="mClose" type="button" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+      <div class="modal-head">
+        <h2 id="mTitle"></h2>
+        <p class="modal-dates" id="mDates"></p>
+        <p class="modal-sub">A REALIZAR</p>
+      </div>
+      <div class="modal-body" id="mBody"></div>
+      <div class="modal-links" id="mLinks"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/store.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

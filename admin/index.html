@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Panel de acciones · Bahía Blanca Plaza Shopping</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=Archivo:wdth,wght@125,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="page-admin">
+
+  <header class="top">
+    <a class="brand" href="/">
+      <img src="/assets/logo.png" alt="Bahía Blanca Plaza Shopping"
+           onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'brand-text',textContent:'BAHIA BLANCA PLAZA SHOPPING'}))">
+    </a>
+    <a class="to-cal" href="/">Ver calendario →</a>
+  </header>
+
+  <main class="admin">
+    <form class="card-form" id="form" novalidate autocomplete="off">
+      <div class="editing" id="editing" hidden>
+        <span>MODIFICANDO: <b id="editingName"></b></span>
+        <button type="button" id="cancelEdit">Cancelar</button>
+      </div>
+
+      <label class="lbl center" for="titulo">TITULO <i>*</i></label>
+      <input class="pill" id="titulo" maxlength="80" required>
+
+      <div class="dates">
+        <label class="lbl" for="inicio">FECHA<br>INICIO <i>*</i></label>
+        <input class="pill" type="date" id="inicio" required>
+        <label class="lbl" for="cierre">FECHA<br>CIERRE <i>*</i></label>
+        <input class="pill" type="date" id="cierre" required>
+      </div>
+
+      <label class="lbl" for="descripcion">A REALIZAR</label>
+      <textarea class="box" id="descripcion" placeholder="Tareas, piezas, responsables…"></textarea>
+
+      <div class="links">
+        <label for="lGraficas">LINK A GRAFICAS:</label>
+        <input class="pill sm" id="lGraficas" inputmode="url" placeholder="https://">
+        <label for="lBrief">LINK AL BRIEF:</label>
+        <input class="pill sm" id="lBrief" inputmode="url" placeholder="https://">
+        <label for="lOtro">OTRO LINK:</label>
+        <input class="pill sm" id="lOtro" inputmode="url" placeholder="https://">
+      </div>
+
+      <div class="colors">
+        <span class="lbl">COLOR</span>
+        <div class="swatches" id="swatches" role="radiogroup" aria-label="Color de la acción"></div>
+      </div>
+
+      <p class="form-error" id="err" role="alert"></p>
+      <button class="save" id="save" type="submit">GUARDAR</button>
+      <p class="req">* OBLIGATORIOS</p>
+    </form>
+
+    <h2 class="hist-title">HISTORIAL DE ACCIONES CARGADAS</h2>
+    <section class="hist" id="list" aria-live="polite"></section>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/store.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
